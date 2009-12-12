@@ -5,13 +5,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "mongo-hashie"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "Simple MongoDB Object Wrapper based on Hashie"
+    gem.description = "Simple MongoDB Object Wrapper based on Hashie"
     gem.email = "kiessler@inceedo.com"
     gem.homepage = "http://github.com/okiess/mongo-hashie"
     gem.authors = ["Oliver Kiessler"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_development_dependency "shoulda", ">= 0"
+    gem.add_dependency "hashie"
+    gem.add_dependency "mongo" 
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
