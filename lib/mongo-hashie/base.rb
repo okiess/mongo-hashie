@@ -2,6 +2,7 @@ module MongoHashie
   def self.included(base)
     base.class_eval do
       extend ClassMethods
+      extend MongoHashie::Rails
       include InstanceMethods
       include Mongo
     end
@@ -13,7 +14,7 @@ module MongoHashie
     end
 
     def save
-      if self._id.blank?
+      if self._id.nil?
         self._id = Mongo::ObjectID.new
         collection.insert(self)
       else
@@ -28,46 +29,43 @@ module MongoHashie
   end
 
   module ClassMethods
-    def database
-      @@database ||= "mongohashie"
-    end
-    def database=(value); @@database = value; end
-
     def connection
-      Mongo::Connection.new("localhost", 27017, :pool_size => 5, :timeout => 5)
+      Mongo::Connection.new(MongoHashie::Configuration.host, MongoHashie::Configuration.port,
+        :pool_size => MongoHashie::Configuration.pool_size, :timeout => MongoHashie::Configuration.timeout)
     end
 
-    def db; @@db ||= connection.db(database); end
-    def create(hash = {}); self.new(hash).save; end
-
-    def all(options = {})
-      self.new.collection.find.collect {|doc| self.new(doc)}
-    end
-
-    def first(options = {})
-      self.new(self.new.collection.find_one)
-    end
-
-    def find(*args)
-      if args.first.is_a?(Hash)
-        result = self.new.collection.find(args.first)
-      else
-        result = self.new.collection.find('_id' => Mongo::ObjectID.from_string(args.first))
-      end
-      result.count == 1 ? result.collect {|doc| self.new(doc)}.first : result.collect {|doc| self.new(doc)}
-    end
-
-    def count
-      self.new.collection.count
-    end
-
-    def destroy_all
-      self.new.collection.remove
-    end
+    def db; @@db ||= connection.db(MongoHashie::Configuration.database); end
   end
 end
 
 class MongoHashie::Base < Hashie::Mash
   include MongoHashie
+end
+
+class MongoHashie::Configuration
+  def self.database
+    @@database ||= 'mongohashie'
+  end
+  def self.database=(value); @@database = value; end
+
+  def self.host
+    @@host ||= 'localhost'
+  end
+  def self.host=(value); @@host = value; end
+
+  def self.port
+    @@port ||= 27017
+  end
+  def self.port=(value); @@port = value; end
+
+  def self.pool_size
+    @@pool_size ||= 5
+  end
+  def self.pool_size=(value); @@pool_size = value; end
+
+  def self.timeout
+    @@timeout ||= 5
+  end
+  def self.timeout=(value); @@timeout = value; end
 end
 
