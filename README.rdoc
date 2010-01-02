@@ -2,6 +2,10 @@
 
 mongo-hashie is a mongodb library that aims to be simple and effective. No need to explicitly define properties. Getters and setters are created through the underlying Mash class from hashie.
 
+== Install
+
+ $ gem install mongo-hashie
+
 == Usage
 
 class Document < MongoHashie::Base
@@ -11,38 +15,38 @@ Simply add new properties by calling the setter.
 
 # Basic CRUD operations
 
-document = Document.new(:author => "Oliver Kiessler")
-document.name = "test attribute"
-document.save # create
-puts document._id # Mongo ObjectID String represenation
+ $ document = Document.new(:author => "Oliver Kiessler")
+ $ document.name = "test attribute"
+ $ document.save # create
+ $ puts document._id # Mongo ObjectID String represenation
 
-document.name = "simple change"
-document.save # update
+ $ document.name = "simple change"
+ $ document.save # update
 
-document.destroy
+ $ document.destroy
 
-document2 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name")
+ $ document2 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name")
 
-Document.destroy_all
+ $ Document.destroy_all
 
 # Find operations
 
-Document.first
-Document.find("4b3f4bd4c1d7110513000001") # Mongo ObjectID String represenation
-
-Document.all
-Document.all(:author => "Oliver Kiessler")
-Document.find(:author => "Oliver Kiessler", :name => "Great Document Name")
-
-Document.count
+ $ Document.first
+ $ Document.find("4b3f4bd4c1d7110513000001") # Mongo ObjectID String represenation
+ $ 
+ $ Document.all
+ $ Document.all(:author => "Oliver Kiessler")
+ $ Document.find(:author => "Oliver Kiessler", :name => "Great Document Name")
+ $ 
+ $ Document.count
 
 # Meta Data
 
-document1 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop1 => "Test")
-document2 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop2 => "Test")
-document3 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop3 => "Test")
-
-puts Document.properties_used.inspect
+ $ document1 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop1 => "Test")
+ $ document2 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop2 => "Test")
+ $ document3 = Document.create(:author => "Oliver Kiessler", :name => "Great Document Name", :prop3 => "Test")
+ $ 
+ $ puts Document.properties_used.inspect
 
 == Note on Patches/Pull Requests
  
