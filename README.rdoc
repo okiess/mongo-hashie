@@ -8,8 +8,8 @@ mongo-hashie is a mongodb library that aims to be simple and effective. No need 
 
 == Usage
 
-class Document < MongoHashie::Base
-end
+ $ class Document < MongoHashie::Base
+ $ end
 
 Simply add new properties by calling the setter.
 
