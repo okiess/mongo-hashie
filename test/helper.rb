@@ -8,3 +8,5 @@ require 'mongo-hashie'
 
 class Test::Unit::TestCase
 end
+
+MongoHashie::Configuration.database = 'mongo-hashie-testdb'

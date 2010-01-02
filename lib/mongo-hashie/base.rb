@@ -2,9 +2,11 @@ module MongoHashie
   def self.included(base)
     base.class_eval do
       extend ClassMethods
-      extend MongoHashie::Rails
-      include InstanceMethods
+      extend Rails
+      extend MetaData::ClassMethods
       include Mongo
+      include InstanceMethods
+      include MetaData::InstanceMethods
     end
   end
 
@@ -20,6 +22,7 @@ module MongoHashie
       else
         collection.update({'_id' => self._id}, self)
       end
+      update_keys if MongoHashie::Configuration.create_meta_data and not self.is_a?(MetaDataProperties)
       self
     end
 
@@ -40,6 +43,9 @@ end
 
 class MongoHashie::Base < Hashie::Mash
   include MongoHashie
+end
+
+class MongoHashie::MetaDataProperties < MongoHashie::Base
 end
 
 class MongoHashie::Configuration
@@ -67,5 +73,9 @@ class MongoHashie::Configuration
     @@timeout ||= 5
   end
   def self.timeout=(value); @@timeout = value; end
-end
 
+  def self.create_meta_data
+    @@create_meta_data ||= true
+  end
+  def self.create_meta_data=(value); @@create_meta_data = value; end
+end

@@ -7,7 +7,8 @@ module MongoHashie
     end
 
     def first(options = {})
-      self.new(self.new.collection.find_one)
+      result = self.new.collection.find_one(options)
+      self.new(result) if result
     end
 
     def find(*args)
@@ -24,8 +25,9 @@ module MongoHashie
     end
 
     def destroy_all
-      self.new.collection.remove
+      target = self.new
+      target.collection.remove
+      target.reset_keys
     end
   end
 end
-
