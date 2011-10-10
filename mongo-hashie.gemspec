@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.email = "kiessler@inceedo.com"
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rcov"
   s.add_dependency "hashie"
   s.add_dependency "mongo"
   s.add_dependency "bson_ext"
