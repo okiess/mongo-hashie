@@ -17,7 +17,7 @@ module MongoHashie
 
     def save
       if self._id.nil?
-        self._id = Mongo::ObjectID.new
+        self._id = BSON::ObjectId.new
         collection.insert(self)
       else
         collection.update({'_id' => self._id}, self)
@@ -34,7 +34,7 @@ module MongoHashie
   module ClassMethods
     def connection
       Mongo::Connection.new(MongoHashie::Configuration.host, MongoHashie::Configuration.port,
-        :pool_size => MongoHashie::Configuration.pool_size, :timeout => MongoHashie::Configuration.timeout)
+        :pool_size => MongoHashie::Configuration.pool_size, :pool_timeout => MongoHashie::Configuration.timeout)
     end
 
     def db; @@db ||= connection.db(MongoHashie::Configuration.database); end
