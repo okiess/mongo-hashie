@@ -1,6 +1,9 @@
 require 'bundler'
 require 'rspec/core/rake_task'
 
+$:.push File.expand_path("../lib", __FILE__)
+require "mongo-hashie/version"
+
 Bundler::GemHelper.install_tasks
 
 RSpec::Core::RakeTask.new(:spec)
@@ -15,7 +18,7 @@ task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  version = MongoHashie::VERSION
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "mongo-hashie #{version}"
